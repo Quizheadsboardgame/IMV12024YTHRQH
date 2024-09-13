@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iconic Movies Quiz Box</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Baloo 2', sans-serif;
+            background-color: #5CE1E6;
+            color: black;
+            flex-direction: column;
+            margin: 0;
+            position: relative; /* For positioning the button */
+        }
+
+        #quiz-headings {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #yellow-box {
+            width: 200px;
+            height: 200px;
+            background-color: #FED405;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 5px solid black;
+            text-transform: uppercase; /* Make text uppercase */
+        }
+
+        .color-boxes {
+            display: flex;
+            justify-content: space-between;
+            width: 220px;
+        }
+
+        .color-box {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #green-box {
+            background-color: #7FD15A;
+        }
+
+        #orange-box {
+            background-color: #FF914D;
+        }
+
+        #red-box {
+            background-color: #EE1D23;
+        }
+
+        #purple-box {
+            background-color: #8456E5;
+        }
+
+        #question-answer {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        #tagline {
+            margin-top: 40px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #go-back-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: transparent;
+            color: black;
+            border: 2px solid black;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-headings"></div>
+    <div id="yellow-box">ICONIC MOVIES</div>
+    <div class="color-boxes">
+        <div id="green-box" class="color-box"></div>
+        <div id="orange-box" class="color-box"></div>
+        <div id="red-box" class="color-box"></div>
+        <div id="purple-box" class="color-box"></div>
+    </div>
+    <div id="question-answer"></div>
+    <div id="tagline">QuizHeads. The forever changing trivia board game!</div>
+    <a id="go-back-button" href="https://quizheads.co.uk/masterquizzes">GO BACK</a>
+
+    <script>
+        const yellowBox = document.getElementById("yellow-box");
+        const greenBox = document.getElementById("green-box");
+        const orangeBox = document.getElementById("orange-box");
+        const redBox = document.getElementById("red-box");
+        const purpleBox = document.getElementById("purple-box");
+        const questionAnswerDiv = document.getElementById("question-answer");
+
+        // Array of iconic movie trivia questions and answers
+        const questionsAndAnswers = [
+            { question: "Who directed the movie 'Jurassic Park'?", answer: "Steven Spielberg" },
+            { question: "What year was 'The Godfather' released?", answer: "1972" },
+            { question: "Which movie features the quote 'Here's looking at you, kid'?", answer: "Casablanca" },
+            { question: "In 'The Shawshank Redemption', what is Andy Dufresne's crime?", answer: "Murder" },
+            { question: "Who played the character of 'Jack Dawson' in 'Titanic'?", answer: "Leonardo DiCaprio" },
+            { question: "Which film won the Academy Award for Best Picture in 1994?", answer: "Forrest Gump" },
+            { question: "What is the name of the fictional African country in 'Black Panther'?", answer: "Wakanda" },
+            { question: "Which movie features a character named 'Vito Corleone'?", answer: "The Godfather" },
+            { question: "Who starred as the lead character in 'The Silence of the Lambs'?", answer: "Jodie Foster" },
+            { question: "What is the name of the ship in 'Alien'?", answer: "Nostromo" },
+            { question: "Which movie has the famous line 'May the Force be with you'?", answer: "Star Wars" },
+            { question: "What is the title of the first James Bond film?", answer: "Dr. No" },
+            { question: "Which film is set in the fictional town of 'Amity Island'?", answer: "Jaws" },
+            { question: "Who directed 'Pulp Fiction'?", answer: "Quentin Tarantino" },
+            { question: "Which 1994 film features the character 'Mia Wallace'?", answer: "Pulp Fiction" },
+            { question: "What is the name of the ring in 'The Lord of the Rings'?", answer: "One Ring" },
+            { question: "Which movie features the song 'My Heart Will Go On'?", answer: "Titanic" },
+            { question: "Who played the character of 'Forrest Gump'?", answer: "Tom Hanks" },
+            { question: "Which film features a famous dance scene in a church?", answer: "Sister Act" },
+            { question: "What is the name of the main character in 'Indiana Jones'?", answer: "Indiana Jones" },
+            { question: "Who directed 'Schindler's List'?", answer: "Steven Spielberg" },
+            { question: "Which movie is known for the quote 'I see dead people'?", answer: "The Sixth Sense" },
+            { question: "What 2010 film features a team of dream invaders?", answer: "Inception" },
+            { question: "Who starred as 'Marty McFly' in 'Back to the Future'?", answer: "Michael J. Fox" },
+            { question: "Which movie is set in the post-apocalyptic world of 'Mad Max'?", answer: "Mad Max: Fury Road" },
+            { question: "What is the name of the hotel in 'The Shining'?", answer: "The Overlook Hotel" },
+            { question: "Who played 'Rocky Balboa' in the 'Rocky' series?", answer: "Sylvester Stallone" },
+            { question: "Which film features a character named 'Hannibal Lecter'?", answer: "The Silence of the Lambs" },
+            { question: "What is the name of the character played by Jack Nicholson in 'The Shining'?", answer: "Jack Torrance" },
+            { question: "Which movie features a character named 'Darth Vader'?", answer: "Star Wars" },
+            { question: "Who directed the film 'E.T. the Extra-Terrestrial'?", answer: "Steven Spielberg" },
+            { question: "What is the title of the 1985 film that features a time-traveling DeLorean?", answer: "Back to the Future" },
+            { question: "Which movie features the character 'Dory'?", answer: "Finding Nemo" },
+            { question: "What is the name of the planet in 'Avatar'?", answer: "Pandora" },
+            { question: "Who starred as 'The Bride' in 'Kill Bill'?", answer: "Uma Thurman" },
+            { question: "Which film features the quote 'You can't handle the truth!'?", answer: "A Few Good Men" },
+            { question: "What year was 'The Matrix' released?", answer: "1999" },
+            { question: "Who played the character 'Jack Sparrow' in 'Pirates of the Caribbean'?", answer: "Johnny Depp" },
+            { question: "Which film features the character 'Willy Wonka'?", answer: "Willy Wonka & the Chocolate Factory" },
+            { question: "What is the name of the robot in 'The Terminator'?", answer: "T-800" },
+            { question: "Who directed 'Jaws'?", answer: "Steven Spielberg" },
+            { question: "Which film features the character 'Frodo Baggins'?", answer: "The Lord of the Rings" },
+            { question: "What is the title of the 2017 film about a young girl with telekinetic powers?", answer: "Carrie" },
+            { question: "Which movie features a group of people trapped in a building during a zombie apocalypse?", answer: "Dawn of the Dead" },
+            { question: "Who starred as 'John McClane' in 'Die Hard'?", answer: "Bruce Willis" },
+            { question: "Which film features the character 'Norman Bates'?", answer: "Psycho" },
+            { question: "What is the name of the character played by Tom Hanks in 'Cast Away'?", answer: "Chuck Noland" },
+            { question: "Which movie features a group of friends in a road trip to Las Vegas?", answer: "The Hangover" },
+            { question: "What is the name of the animated film with a character named 'Moana'?", answer: "Moana" }
+        ];
+
+        let shuffledQuestions = [];
+        let questionIndex = 0;
+
+        // Shuffle the questions array
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Initialize questions
+        function initializeQuestions() {
+            shuffledQuestions = shuffleArray([...questionsAndAnswers]);
+            questionIndex = 0;
+            displayQuestion();
+        }
+
+        // Function to display the current question
+        function displayQuestion() {
+            if (shuffledQuestions.length === 0) {
+                questionAnswerDiv.innerHTML = "<strong>No more questions!</strong>";
+                return;
+            }
+            const currentQA = shuffledQuestions[questionIndex];
+            questionAnswerDiv.innerHTML = `<strong>Question:</strong> ${currentQA.question}<br><strong>Answer:</strong> ${currentQA.answer}`;
+        }
+
+        // Change color of the yellow box when a color box is clicked
+        greenBox.addEventListener("click", () => {
+            yellowBox.style.backgroundColor = "#7FD15A";
+        });
+
+        orangeBox.addEventListener("click", () => {
+            yellowBox.style.backgroundColor = "#FF914D";
+        });
+
+        redBox.addEventListener("click", () => {
+            yellowBox.style.backgroundColor = "#EE1D23";
+        });
+
+        purpleBox.addEventListener("click", () => {
+            yellowBox.style.backgroundColor = "#8456E5";
+        });
+
+        // Generate a random question and display it when the yellow box is clicked
+        yellowBox.addEventListener("click", () => {
+            questionIndex = (questionIndex + 1) % shuffledQuestions.length;
+            displayQuestion();
+        });
+
+        // Initialize questions on page load
+        window.onload = initializeQuestions;
+    </script>
+
+</body>
+</html>
